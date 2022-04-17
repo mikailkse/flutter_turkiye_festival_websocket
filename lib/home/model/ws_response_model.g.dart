@@ -8,22 +8,22 @@ part of 'ws_response_model.dart';
 
 WSResponseModel _$WSResponseModelFromJson(Map<String, dynamic> json) =>
     WSResponseModel(
-      s: (json['s'] as num?)?.toDouble(),
+      S: json['S'] as String?,
       x: json['x'] as String?,
       bp: (json['bp'] as num?)?.toDouble(),
       bs: (json['bs'] as num?)?.toDouble(),
       ap: (json['ap'] as num?)?.toDouble(),
       as: (json['as'] as num?)?.toDouble(),
-      T: json['T'] as String?,
+      t: json['t'] as String?,
     );
 
 Map<String, dynamic> _$WSResponseModelToJson(WSResponseModel instance) =>
     <String, dynamic>{
-      'T': instance.T,
-      's': instance.s,
+      'S': instance.S,
       'x': instance.x,
       'bp': instance.bp,
       'bs': instance.bs,
       'ap': instance.ap,
       'as': instance.as,
+      't': instance.t,
     };

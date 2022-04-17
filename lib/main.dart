@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_websocket_example/home/view/home_view.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() => runApp(const MyApp());
+import 'home/view/home_view.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  initializeDateFormatting().then((_) => runApp(const MyApp()));
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -9,7 +14,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Material App',
+      title: 'WebSocket',
+      debugShowCheckedModeBanner: false,
       home: HomeView(),
     );
   }

@@ -1,24 +1,24 @@
 import 'package:chart_sparkline/chart_sparkline.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_websocket_example/core/extensions/contex_extensions.dart';
+import 'package:intl/intl.dart';
 
-import '../../home/viewmodel/home_viewmodel.dart';
 import '../constants/color/app_colors.dart';
+import '../extensions/contex_extensions.dart';
 
 class WsCard extends StatelessWidget {
-  final String? symbol;
-  final double? price;
-  final double? date;
+  final String? symbolName;
+  final String? date;
+  final double? bp;
+  final double? bs;
   final List<double>? data;
-  final HomeViewModel? viewModel;
 
   const WsCard({
     Key? key,
-    this.symbol,
-    this.price,
-    this.date,
+    this.symbolName,
     this.data,
-    this.viewModel,
+    this.bp,
+    this.date,
+    this.bs,
   }) : super(key: key);
 
   @override
@@ -26,84 +26,108 @@ class WsCard extends StatelessWidget {
     return Padding(
       padding: context.paddingLow,
       child: Container(
+        width: context.md9,
+        height: context.height * 0.2,
         decoration: BoxDecoration(
-          borderRadius: context.borderRadiusLow,
-          color: AppColors.springWood,
+          color: Colors.white54,
+          borderRadius: context.borderRadiusMedium,
+          border: Border.all(
+            width: 1.0,
+            color: AppColors.springWood,
+          ),
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, 6),
+              blurRadius: 8,
+              spreadRadius: 0,
+              color: Colors.grey.withOpacity(0.1),
+            ),
+          ],
         ),
-        child: SizedBox(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      symbol.toString(),
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.red,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Sparkline(
-                  data: data ?? [],
-                  fillMode: FillMode.below,
-                  useCubicSmoothing: true,
-                  cubicSmoothingFactor: 0.2,
-                  lineColor:
-                      (price ?? 0) > 0 ? AppColors.pastelGreen : AppColors.red,
-                  fillGradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: (price ?? 0) > 0.35
-                        ? [
-                            AppColors.pastelGreen,
-                            AppColors.white,
-                          ]
-                        : [
-                            AppColors.red,
-                            AppColors.white,
-                          ],
-                  ),
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      '' + price.toString(),
-                      style: const TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500),
+                    CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      backgroundImage: AssetImage('assets/images/btclogo.png'),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                    SizedBox(width: context.width * 0.02),
+                    Column(
                       children: [
                         Text(
-                          price.toString() + "%",
-                          style: TextStyle(
-                            color: (price ?? 0) < 0
-                                ? AppColors.pastelGreen
-                                : AppColors.red,
-                          ),
+                          symbolName.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          'BİTCOİN',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6
+                              ?.copyWith(
+                                  color: AppColors.armadillo,
+                                  fontWeight: FontWeight.bold),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
-              ),
-            ],
-          ),
+                Text(
+                  DateFormat('hh:mm:ss').format(
+                    DateTime.parse(date.toString()),
+                  ),
+                  style: Theme.of(context).textTheme.headline6?.copyWith(
+                      color: AppColors.armadillo, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Sparkline(
+                  fallbackWidth: context.width * 0.24,
+                  fallbackHeight: context.height * 0.08,
+                  data: data!,
+                  fillMode: FillMode.none,
+                  lineColor: double.parse(bp.toString()) > 0.31
+                      ? AppColors.emerald
+                      : AppColors.redOrange,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    SizedBox(height: context.height * 0.03),
+                    Text(
+                      NumberFormat.simpleCurrency().format(bp),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline6
+                          ?.copyWith(color: AppColors.armadillo),
+                    ),
+                    Text(
+                      bs.toString() + '%',
+                      style: Theme.of(context).textTheme.headline6?.copyWith(
+                            color: double.parse(bs.toString()) > 0.31
+                                ? AppColors.emerald
+                                : AppColors.redOrange,
+                          ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

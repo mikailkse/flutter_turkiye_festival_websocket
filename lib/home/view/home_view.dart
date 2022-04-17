@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_websocket_example/core/widgets/ws_card.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../core/base/view/base_wiew.dart';
 import '../../core/widgets/background/homeview_background.dart';
-import '../viewmodel/home_viewmodel.dart';
+import '../viewmodel/home_view_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -27,16 +27,15 @@ class _HomeViewState extends State<HomeView> {
         body: HomeViewBackground(
           child: Column(
             children: [
-              Observer(
-                builder: (_) {
-                  return WsCard(
-                    symbol: viewModel.wsResponseModels?.last.x ?? '',
-                    price: viewModel.wsResponseModels?.last.bp ?? 0,
-                    date: viewModel.wsResponseModels?.last.s ?? 0,
-                    data: viewModel.barsData ?? [],
-                  );
-                },
-              ),
+              Observer(builder: (_) {
+                return WsCard(
+                  symbolName: viewModel.wsResponseModels?.last.S ?? '',
+                  bp: viewModel.wsResponseModels?.last.bp ?? 0,
+                  bs: viewModel.wsResponseModels?.last.bs ?? 0,
+                  data: viewModel.barsData ?? [],
+                  date: viewModel.wsResponseModels?.last.t ?? '',
+                );
+              })
             ],
           ),
         ),

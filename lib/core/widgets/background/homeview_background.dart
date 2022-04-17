@@ -15,12 +15,20 @@ class HomeViewBackground extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          Spacer(flex: 4),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [],
+            children: [
+              Text(
+                'Flutter Türkiye Festival - WebSocket',
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
+            ],
           ),
+          Spacer(),
           Container(
-            height: MediaQuery.of(context).size.height * 0.9,
+            height: MediaQuery.of(context).size.height * 0.89,
             decoration: const BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.only(
@@ -29,7 +37,7 @@ class HomeViewBackground extends StatelessWidget {
               ),
             ),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Center(
                   child: child,
